@@ -1,0 +1,60 @@
+package modelo;
+
+// importaÃ§Ã£o necessÃ¡ria para ultilizaÃ§Ã£o das funÃ§Ãµes da linguagem;
+import java.util.ArrayList;
+
+// qualificador e o nome da classe
+public class CategoriaRepository {
+
+	// DeclaraÃ§Ã£o de criaÃ§Ã£o da lista categoria
+	ArrayList<CategoriaEntity> categoriaRepository = new ArrayList<CategoriaEntity>();
+
+	// MetÃ³do cadastar, nesse metÃ³do Ã© possÃ­vel cadastrar categorias;
+	public void incluir(final CategoriaEntity categoriaEntity) {
+		this.categoriaRepository.add(categoriaEntity);
+	}
+
+	// MetÃ³do usado para consultar as categorias cadastradas;
+	public ArrayList<CategoriaEntity> consultarTodos() {
+		return this.categoriaRepository;
+	}
+
+	// MetÃ³do usado para consultar as categorias cadastradas;
+	public CategoriaEntity consultarPorCodigo(final int codigo) {
+
+		for (final CategoriaEntity categoriaEntity : this.categoriaRepository) {
+			if (codigo == categoriaEntity.getCodigo()) {
+				return categoriaEntity;
+			}
+		}
+
+		return null;
+	}
+
+	// MetÃ³do usado para excluir as categorias cadastradas
+	public void excluir(final CategoriaEntity categoriaEntity) {
+		if (categoriaEntity != null) {
+			this.categoriaRepository.remove(categoriaEntity);
+		}
+	}
+
+	// MetÃ³do para alterar as categorias cadastradas
+	public void alterar(final CategoriaEntity categoriaEntity) {
+		this.categoriaRepository.add(categoriaEntity);
+	}
+
+	public ArrayList<String> consultarMenu() {
+		final ArrayList<String> opcaoMenu = new ArrayList<String>();
+
+		opcaoMenu.add("Bem vindo as funÃ§Ãµes da categoria!");
+		opcaoMenu.add("Escolha uma opÃ§Ã£o abaixo.");
+		opcaoMenu.add("1 - Cadastrar categoria");
+		opcaoMenu.add("2 - Consultar categoria");
+		opcaoMenu.add("3 - Consultar categoria por codigo");
+		opcaoMenu.add("4 - Alterar categoria");
+		opcaoMenu.add("5 - Excluir categoria");
+		opcaoMenu.add("Digite a opÃ§Ã£o desejada:");
+
+		return opcaoMenu;
+	}
+}
