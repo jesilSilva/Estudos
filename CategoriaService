@@ -1,0 +1,171 @@
+package modelo;
+
+// importaÃ§Ã£o necessÃ¡ria para ultilizaÃ§Ã£o das funÃ§Ãµes da linguagem;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// qualificador e o nome da classe
+public class CategoriaService {
+
+	CategoriaEntity categoriaEntity = new CategoriaEntity();
+	CategoriaRepository categoriaRepository = new CategoriaRepository();
+
+	// MetÃ³do usado para montar o menu especÃ­fico da categoria
+	public int processarMenu() {
+		final Scanner leitorCategoria = new Scanner(System.in);
+
+		final ArrayList<String> menu = this.categoriaRepository.consultarMenu();
+		for (final String string : menu) {
+			System.out.println(string);
+		}
+
+		final int opcao = leitorCategoria.nextInt();
+
+		return opcao;
+	}
+
+	public void cadastrar() {
+
+		final Scanner leitorCategoria = new Scanner(System.in);
+		System.out.println("************Cadastro categoria**************");
+
+		System.out.println("Informe o cÃ³digo:");
+		final int codigo = leitorCategoria.nextInt();
+		this.categoriaEntity.setCodigo(codigo);
+
+		System.out.println("Informe o nome da categoria:");
+		final String nome = leitorCategoria.next();
+		this.categoriaEntity.setNome(nome);
+
+		System.out.println("Informe caracteristica");
+		final String caracteristicas = leitorCategoria.next();
+		this.categoriaEntity.setCaracteristicas(caracteristicas);
+
+		System.out.println("Informe o esporte:");
+		final String esporte = leitorCategoria.next();
+		this.categoriaEntity.setEsporte(esporte);
+
+		System.out.println("Informe a restriÃ§Ã£o:");
+		final String restricao = leitorCategoria.next();
+		this.categoriaEntity.setRestricao(restricao);
+
+		this.categoriaRepository.incluir(this.categoriaEntity);
+
+		System.out.println("Categoria cadastrada com sucesso!");
+		System.out.println("\n\n\n");
+	}
+
+	// MetÃ³do usado para consultar as categorias cadastradas;
+	public ArrayList<CategoriaEntity> consultarTodos() {
+
+		final ArrayList<CategoriaEntity> categorias = this.categoriaRepository.consultarTodos();
+
+		if (categorias.isEmpty()) {
+			System.out.println("NÃ£o existe categorias cadastradas!");
+			System.out.println("\n\n\n");
+		} else {
+			for (int i = 0; i < categorias.size(); i++) {
+
+				System.out.println("\n\n\n\n\n\n\n\n\n");
+				System.out.println("******Consulta Categoria********");
+				System.out.println("********  Dados da Categoria ********");
+				System.out.println("CÃ³digo da categoria:" + categorias.get(i).getCodigo());
+				System.out.println("Nome da categoria: " + categorias.get(i).getNome());
+				System.out.println("Caracteristicas:" + categorias.get(i).getCaracteristicas());
+				System.out.println("Categoria: " + categorias.get(i).getEsporte());
+				System.out.println("RestriÃ§Ã£o: " + categorias.get(i).getRestricao());
+				System.out.println("**********************************");
+				System.out.println("\n\n\n");
+			}
+		}
+
+		return categorias;
+	}
+
+	// MetÃ³do usado para consultar as categorias cadastradas;
+	public CategoriaEntity consultarPorCodigo() {
+
+		final Scanner leitorCategoria = new Scanner(System.in);
+		System.out.println("************Consultar por código da categoria**************");
+
+		System.out.println("Informe o cÃ³digo:");
+		final int codigo = leitorCategoria.nextInt();
+
+		final CategoriaEntity categoria = this.categoriaRepository.consultarPorCodigo(codigo);
+
+		if (categoria == null) {
+			System.out.println("NÃ£o existe categorias cadastradas!");
+			System.out.println("\n\n\n");
+		} else {
+
+			System.out.println("\n\n\n\n\n\n\n\n\n");
+			System.out.println("******Consulta Categoria********");
+			System.out.println("********  Dados da Categoria ********");
+			System.out.println("CÃ³digo da categoria:" + categoria.getCodigo());
+			System.out.println("Nome da categoria: " + categoria.getNome());
+			System.out.println("Caracteristicas:" + categoria.getCaracteristicas());
+			System.out.println("Categoria: " + categoria.getEsporte());
+			System.out.println("RestriÃ§Ã£o: " + categoria.getRestricao());
+			System.out.println("**********************************");
+			System.out.println("\n\n\n");
+
+		}
+
+		return categoria;
+	}
+
+	// MetÃ³do usado para excluir as categorias cadastradas
+	public void excluir() {
+
+		final Scanner leitorCategoria = new Scanner(System.in);
+
+		System.out.println("****************ExclusÃ£o da Categoria********************");
+		System.out.println("Informe o cÃ³digo da categoria que deseja excluir:");
+
+		final int codigo = leitorCategoria.nextInt();
+
+		final CategoriaEntity categoriaEntity = this.categoriaRepository.consultarPorCodigo(codigo);
+
+		if (categoriaEntity != null) {
+			this.categoriaRepository.excluir(categoriaEntity);
+			System.out.println("O registro foi deletado com sucesso!");
+		}
+	}
+
+	// MetÃ³do para alterar as categorias cadastradas
+	public void alterar() {
+
+		final Scanner leitorCategoria = new Scanner(System.in);
+
+		System.out.println("****************AlteraÃ§Ã£o da categoria********************");
+		System.out.println("Informe o cÃ³digo da categoria que deseja alterar:");
+
+		final int codigo = leitorCategoria.nextInt();
+
+		final CategoriaEntity categoriaEntity = this.categoriaRepository.consultarPorCodigo(codigo);
+
+		if (categoriaEntity != null) {
+			System.out.println("Informe o cÃ³digo da categoria:");
+			categoriaEntity.setCodigo(leitorCategoria.nextInt());
+
+			System.out.println("Informe o novo nome:");
+			categoriaEntity.setNome(leitorCategoria.next());
+
+			System.out.println("Informe a caracteristica:");
+			categoriaEntity.setCaracteristicas(leitorCategoria.next());
+
+			System.out.println("Informe a categoria:");
+			categoriaEntity.setEsporte(leitorCategoria.next());
+
+			System.out.println("Informe a restriÃ§Ã£o:");
+			categoriaEntity.setRestricao(leitorCategoria.next());
+
+			this.categoriaRepository.alterar(categoriaEntity);
+
+			System.out.println("Alterado com Sucesso");
+
+		} else {
+			System.out.println("NÃ£o existe categorias com esse cÃ³digo!");
+		}
+	}
+}
